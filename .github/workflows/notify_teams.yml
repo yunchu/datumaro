@@ -6,12 +6,20 @@ on:
       MSTEAMS_WEBHOOK:
         required: true
 
+permissions:
+  contents: read
+
 jobs:
   notify-to-teams:
     runs-on: ubuntu-latest
     steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@63c24ba6bd7ba022e95695ff85de572c04a18142 # v2.7.0
+        with:
+          egress-policy: audit
+
       - name: Microsoft Teams Notification
-        uses: skitionek/notify-microsoft-teams@master
+        uses: skitionek/notify-microsoft-teams@b290e57b83ce1ee80b9f94848a525a7079acaac9 # master
         if: always()
         with:
           webhook_url: ${{ secrets.MSTEAMS_WEBHOOK }}
